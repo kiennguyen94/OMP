@@ -129,8 +129,8 @@ void LSQR(magmaFloat_ptr A_d, magmaFloat_ptr b_d, magmaFloat_ptr x_d, int M,
 	TESTING_CHECK(magma_smalloc(&b_copy, M));
 	TESTING_CHECK(magma_smalloc_cpu(&h_work, lhwork));
 
-	magma_scopymatrix(M, N, A_d, M, A_copy, M, queue);
-	magma_scopyvector(M, b_d, inc, b_copy, inc, queue);
+	magma_scopymatrix_async(M, N, A_d, M, A_copy, M, queue);
+	magma_scopyvector_async(M, b_d, inc, b_copy, inc, queue);
 
 	magma_sgels_gpu(MagmaNoTrans, M, N, nrhs, A_copy, lda, b_copy, ldb, h_work,
 			lworkgpu, &info);
