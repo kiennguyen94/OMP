@@ -199,9 +199,11 @@ void OMP(const float* A, const float* b, float* coeff, int k, int N, int M) {
 	float beta = 0.0;
 
 	// Init memory
-	magmaFloat_ptr A_d, b_d, res_d, dot_p, atom_d, atom_ptr, A_ptr, temp;
+	magmaFloat_ptr A_d, b_d, res_d, dot_p, A_ptr, temp;
+	float *atom_d, *atom_ptr;
 	magmaFloat_ptr x_T;
 	float * x_T_h;
+	cudaMallocManaged(&atom_d, N * k * sizeof(float));
 	TESTING_CHECK(magma_smalloc_cpu(&x_T_h, k));
 	TESTING_CHECK(magma_smalloc(&x_T, k));
 	TESTING_CHECK(magma_smalloc(&A_d, N * M));
@@ -210,7 +212,7 @@ void OMP(const float* A, const float* b, float* coeff, int k, int N, int M) {
 	TESTING_CHECK(magma_smalloc(&res_d, N));
 	TESTING_CHECK(magma_smalloc(&dot_p, M));
 	// N*K because after k iterations we get at most k columns
-	TESTING_CHECK(magma_smalloc(&atom_d, N * k));
+//	TESTING_CHECK(magma_smalloc(&atom_d, N * k));
 	TESTING_CHECK(magma_smalloc(&temp, N));
 
 	// TODO: fill this
